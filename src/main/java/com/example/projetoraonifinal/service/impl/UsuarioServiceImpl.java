@@ -25,11 +25,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario autenticar(String email, String senha) {
         Optional<Usuario> usuario = repository.findByEmail(email);
 
-        if(!usuario.isPresent()) {
+        if (!usuario.isPresent()) {
             throw new AutenticacaoException("Nenhum usuário cadastrado com o e-mail informado.");
         }
 
-        if(!usuario.get().getSenha().equals(senha)){
+        if (!usuario.get().getSenha().equals(senha)) {
             throw new AutenticacaoException("Senha incorreta.");
         }
 
@@ -48,7 +48,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void validarEmail(String email) {
         boolean existe = repository.existsByEmail(email);
 
-        if(existe) {
+        if (existe) {
             throw new RegraNegocioException("Já existe um usuario cadastrado com esse e-mail!");
         }
     }

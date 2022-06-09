@@ -25,12 +25,11 @@ public class UsuarioResource {
     @PostMapping("/salvar")
     public ResponseEntity salvar(@RequestBody UsuarioDTO dto) {
 
-        Usuario usuario = Usuario.builder().nome(dto.getNome()).email(dto.getEmail()).senha(dto.getSenha()).build();
-
         try {
+            Usuario usuario = Usuario.builder().nome(dto.getNome()).email(dto.getEmail()).senha(dto.getSenha()).build();
             Usuario usuarioSalvo = service.salvar(usuario);
             return new ResponseEntity(usuarioSalvo, HttpStatus.CREATED);
-        }catch (RegraNegocioException e) {
+        } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
