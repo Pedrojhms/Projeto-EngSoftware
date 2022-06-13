@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         List<String> todos = Collections.singletonList("*");
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","https://projetofinalraoni-backend.herokuapp.com/"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","https://projetofinalraoni-frontend.herokuapp.com/"));
         configuration.setAllowedMethods(todos);
         configuration.setAllowedHeaders(todos);
         configuration.setAllowCredentials(true);
