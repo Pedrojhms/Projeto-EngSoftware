@@ -5,8 +5,7 @@ import com.example.projetoraonifinal.exception.RegraNegocioException;
 import com.example.projetoraonifinal.model.entity.Usuario;
 import com.example.projetoraonifinal.model.repository.UsuarioRepository;
 import com.example.projetoraonifinal.service.UsuarioService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,10 +14,11 @@ import java.util.Optional;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioRepository repository;
+    private PasswordEncoder encoder;
 
-    @Autowired
-    public UsuarioServiceImpl(UsuarioRepository repository) {
+    public UsuarioServiceImpl(UsuarioRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
+        this.encoder = encoder;
     }
 
     @Override
@@ -29,7 +29,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new AutenticacaoException("Nenhum usuário cadastrado com o e-mail informado.");
         }
 
-        if (!usuario.get().getSenha().equals(senha)) {
+        boolean isSenha = encoder.matches(senha, usuario.get().getSenha());
+
+        if (!isSenha) {
             throw new AutenticacaoException("Senha incorreta.");
         }
 
@@ -41,9 +43,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario salvar(Usuario usuario) {
         validarEmail(usuario.getEmail());
 
+        criptografarSenha(usuario);
+
         return repository.save(usuario);
     }
 
+    private void criptografarSenha(Usuario usuario) {
+        String senha = usuario.getSenha();
+        String senhaCript = encoder.encode(senha);
+        usuario.setSenha(senhaCript);
+    }
     @Override
     public void validarEmail(String email) {
         boolean existe = repository.existsByEmail(email);
