@@ -31,13 +31,13 @@ public class JwtServiceImpl implements JwtService {
         Instant instant = dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant();
         Date data = Date.from(instant);
 
-        String horaExpiracaoToken = dataHoraExpiracao.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        String dataHoraExpiracaoToken = dataHoraExpiracao.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
         return Jwts.builder()
                 .setExpiration(data)
                 .claim("userid", usuario.getId())
                 .claim("nome", usuario.getNome())
-                .claim("horaExpiracao", horaExpiracaoToken)
+                .claim("dataHoraExpiracao", dataHoraExpiracaoToken)
                 .signWith(SignatureAlgorithm.HS512, chaveAssinatura)
                 .compact();
     }
