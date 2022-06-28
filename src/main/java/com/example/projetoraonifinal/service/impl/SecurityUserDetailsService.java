@@ -1,9 +1,7 @@
 package com.example.projetoraonifinal.service.impl;
 
 import com.example.projetoraonifinal.model.entity.Usuario;
-import com.example.projetoraonifinal.model.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import com.example.projetoraonifinal.api.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,10 +19,10 @@ public class SecurityUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         Usuario usuarioEncontrado = usuarioRepository
-                .findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("E-mail não cadastrado."));
+                .findById(Long.parseLong(id))
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não cadastrado."));
 
         return User.builder()
                 .username(usuarioEncontrado.getEmail())

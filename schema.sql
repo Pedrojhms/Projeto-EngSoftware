@@ -1,39 +1,21 @@
--- DROP DATABASE minhasfinancas;
+DROP DATABASE IF EXISTS cadastro;
 
-CREATE DATABASE minhasfinancas;
+CREATE DATABASE cadastro;
 
-CREATE SCHEMA financas;
+\c cadastro
 
-CREATE TABLE financas.usuario
+CREATE TABLE usuario
 (
     id bigserial NOT NULL PRIMARY KEY,
     nome character varying(150),
     email character varying(100),
-    senha character varying(20),
+    senha character varying(255),
+    cep character varying(8),
+    logradouro character varying(100),
+    bairro character varying(50),
+    cidade character varying(30),
+    estado character varying(20),
+    numero smallint,
+    complemento character varying(50),
     data_cadastro date default now()
 );
-
-CREATE TABLE financas.lancamento
-(
-    id bigserial NOT NULL,
-    descricao character varying(100) NOT NULL,
-    mes integer NOT NULL,
-    ano integer NOT NULL,
-    valor numeric(16,2),
-    tipo character varying(20),
-    status character varying(20),
-    id_usuario bigint NOT NULL,
-    data_cadastro date DEFAULT now(),
-    CONSTRAINT lancamento_pkey PRIMARY KEY (id),
-    CONSTRAINT lancamento_id_usuario_fkey FOREIGN KEY (id_usuario)
-        REFERENCES financas.usuario (id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT lancamento_status_check CHECK (status::text = ANY (ARRAY['PENDENTE'::character varying, 'CANCELADO'::character varying, 'EFETIVADO'::character varying]::text[])),
-    CONSTRAINT lancamento_tipo_check CHECK (tipo::text = ANY (ARRAY['RECEITA'::character varying, 'DESPESA'::character varying]::text[]))
-)
-    WITH (
-        OIDS=FALSE
-    );
-
-ALTER TABLE financas.lancamento
-    OWNER TO postgres;
