@@ -1,5 +1,6 @@
 package com.example.projetoraonifinal.model.repository;
 
+import com.example.projetoraonifinal.api.repository.UsuarioRepository;
 import com.example.projetoraonifinal.model.entity.Usuario;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

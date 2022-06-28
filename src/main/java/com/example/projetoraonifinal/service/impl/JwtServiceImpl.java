@@ -64,6 +64,6 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String obterLoginUsuario(String token) {
         Claims claims = obterClaims(token);
-        return claims.getSubject();
+        return claims.get("userid").toString();
     }
 }

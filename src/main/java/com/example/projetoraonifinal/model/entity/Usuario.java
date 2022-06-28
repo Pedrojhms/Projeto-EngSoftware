@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usuario", schema = "financas")
+@Table(name = "usuario", schema = "public")
 @Data
 @Builder
 @NoArgsConstructor
@@ -33,4 +33,25 @@ public class Usuario {
 
     @Column(name = "senha")
     private String senha;
+
+    @Column(name = "cep")
+    private String cep;
+
+    @Column(name = "logradouro")
+    private String logradouro;
+
+    @Column(name = "bairro")
+    private String bairro;
+
+    @Column(name = "cidade")
+    private String cidade;
+
+    @Column(name = "estado")
+    private String uf;
+
+    @Column(name = "numero")
+    private Integer numero;
+
+    @Column(name = "complemento")
+    private String complemento;
 }

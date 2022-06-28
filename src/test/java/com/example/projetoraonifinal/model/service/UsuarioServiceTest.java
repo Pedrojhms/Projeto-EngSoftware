@@ -3,7 +3,7 @@ package com.example.projetoraonifinal.model.service;
 import com.example.projetoraonifinal.exception.AutenticacaoException;
 import com.example.projetoraonifinal.exception.RegraNegocioException;
 import com.example.projetoraonifinal.model.entity.Usuario;
-import com.example.projetoraonifinal.model.repository.UsuarioRepository;
+import com.example.projetoraonifinal.api.repository.UsuarioRepository;
 import com.example.projetoraonifinal.service.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

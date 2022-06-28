@@ -3,7 +3,7 @@ package com.example.projetoraonifinal.service.impl;
 import com.example.projetoraonifinal.exception.AutenticacaoException;
 import com.example.projetoraonifinal.exception.RegraNegocioException;
 import com.example.projetoraonifinal.model.entity.Usuario;
-import com.example.projetoraonifinal.model.repository.UsuarioRepository;
+import com.example.projetoraonifinal.api.repository.UsuarioRepository;
 import com.example.projetoraonifinal.service.UsuarioService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioServiceImpl(UsuarioRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
+    }
+
+    @Override
+    public Usuario buscar(Long id) {
+        Optional<Usuario> usuario = repository.findById(id);
+
+        if (!usuario.isPresent()){
+            throw new RegraNegocioException("Nenhum usuário encontrado para o id " + id);
+        }
+        return usuario.get();
     }
 
     @Override
@@ -46,6 +56,32 @@ public class UsuarioServiceImpl implements UsuarioService {
         criptografarSenha(usuario);
 
         return repository.save(usuario);
+    }
+
+    @Override
+    @Transactional
+    public Usuario editar(Usuario usuario) {
+        Optional<Usuario> usuarioSalvo = repository.findById(usuario.getId());
+
+        if (!usuarioSalvo.isPresent()){
+            throw new RegraNegocioException("Nenhum usuário encontrado para o id " + usuario.getId());
+        }
+
+        criptografarSenha(usuario);
+
+        return repository.save(usuario);
+    }
+
+    @Override
+    @Transactional
+    public void deletar(Long id) {
+        Optional<Usuario> usuarioSalvo = repository.findById(id);
+
+        if (!usuarioSalvo.isPresent()){
+            throw new RegraNegocioException("Nenhum usuário encontrado para o id " + id);
+        }
+
+        repository.deleteById(id);
     }
 
     private void criptografarSenha(Usuario usuario) {

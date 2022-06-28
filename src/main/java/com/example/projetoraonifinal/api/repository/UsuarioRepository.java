@@ -1,4 +1,4 @@
-package com.example.projetoraonifinal.model.repository;
+package com.example.projetoraonifinal.api.repository;
 
 import com.example.projetoraonifinal.model.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
